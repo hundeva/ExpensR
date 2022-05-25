@@ -5,4 +5,5 @@
     <string name="expenses">Expenses</string>
     <string name="income">Income</string>
     <string name="balance">Balance</string>
+    <string name="no_description">No description</string>
 </resources>

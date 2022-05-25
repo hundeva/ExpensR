@@ -6,13 +6,14 @@ import androidx.recyclerview.widget.ListAdapter
 import com.hdeva.expensr.databinding.ItemTransactionGroupBinding
 import com.hdeva.expensr.domain.model.Transaction
 import com.hdeva.expensr.extension.layoutInflater
+import com.hdeva.expensr.service.DateFormatter
 import com.hdeva.expensr.ui.base.BaseViewHolder
-import java.text.SimpleDateFormat
 import javax.inject.Inject
 import javax.inject.Provider
 
 class TransactionGroupAdapter @Inject constructor(
     private val adapterProvider: Provider<TransactionAdapter>,
+    private val dateFormatter: DateFormatter,
 ) : ListAdapter<List<Transaction>, TransactionGroupViewHolder>(TransactionGroupDiffer()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionGroupViewHolder {
         return TransactionGroupViewHolder(
@@ -27,7 +28,7 @@ class TransactionGroupAdapter @Inject constructor(
     override fun onBindViewHolder(holder: TransactionGroupViewHolder, position: Int) {
         val items = getItem(position)
         with(holder.binding) {
-            header.text = SimpleDateFormat("dd MMM, yyyy").format(items.first().calendar.time)
+            header.text = dateFormatter.formatTransactionHeaderDate(items)
             recyclerView.adapter = adapterProvider.get().apply {
                 submitList(items)
             }

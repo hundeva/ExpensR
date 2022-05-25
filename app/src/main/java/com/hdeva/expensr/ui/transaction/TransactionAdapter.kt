@@ -6,11 +6,13 @@ import androidx.recyclerview.widget.ListAdapter
 import com.hdeva.expensr.databinding.ItemTransactionBinding
 import com.hdeva.expensr.domain.model.Transaction
 import com.hdeva.expensr.extension.layoutInflater
+import com.hdeva.expensr.service.TransactionHelper
 import com.hdeva.expensr.ui.base.BaseViewHolder
 import javax.inject.Inject
 
-class TransactionAdapter @Inject constructor() :
-    ListAdapter<Transaction, TransactionViewHolder>(TransactionDiffer()) {
+class TransactionAdapter @Inject constructor(
+    private val transactionHelper: TransactionHelper,
+) : ListAdapter<Transaction, TransactionViewHolder>(TransactionDiffer()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionViewHolder {
         return TransactionViewHolder(
@@ -25,8 +27,12 @@ class TransactionAdapter @Inject constructor() :
     override fun onBindViewHolder(holder: TransactionViewHolder, position: Int) {
         val item = getItem(position)
         with(holder.binding) {
-            description.text = "#${item.id} - ${item.description}"
-            value.text = item.value.toString()
+            description.text =
+                transactionHelper.formatTransactionDescription(
+                    description.context,
+                    item,
+                )
+            value.text = transactionHelper.formatTransactionValue(item)
         }
     }
 }
