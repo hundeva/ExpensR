@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat
 import com.hdeva.expensr.R
 import com.hdeva.expensr.databinding.ActivityHomeBinding
 import com.hdeva.expensr.ui.base.BaseActivity
+import com.hdeva.expensr.ui.transaction.AddTransactionFragmentDialog
 import com.hdeva.expensr.ui.transaction.TransactionGroupAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -32,7 +33,11 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             recyclerView.adapter = groupAdapter
 
             addTransaction.setOnClickListener {
-                viewModel.addRandomData()
+                AddTransactionFragmentDialog.newInstance()
+                    .show(
+                        supportFragmentManager,
+                        AddTransactionFragmentDialog.TAG,
+                    )
             }
         }
     }
