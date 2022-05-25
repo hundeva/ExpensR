@@ -1,45 +1,103 @@
 plugins {
     id 'com.android.application'
-    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
 }
 
 android {
-    compileSdk 32
+    compileSdk buildConfig.compileSdk
 
     defaultConfig {
         applicationId "com.hdeva.expensr"
-        minSdk 27
-        targetSdk 32
-        versionCode 1
-        versionName "1.0"
 
+        minSdkVersion buildConfig.minSdk
+        targetSdkVersion buildConfig.targetSdk
+
+        versionCode appVersionCode
+        versionName appVersionName
+
+        setProperty("archivesBaseName", "ExpensR-$appVersionName")
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
+    buildFeatures {
+        viewBinding true
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         jvmTarget = '1.8'
+    }
+
+    signingConfigs {
+        debug {
+            storeFile file("debug-key.jks")
+            storePassword "EXPENSERdebug123"
+            keyAlias "expenser"
+            keyPassword "EXPENSERdebug123"
+        }
+
+        release {
+            storeFile file(EXPENSER_RELEASE_KEY_STORE_FILE)
+            storePassword EXPENSER_RELEASE_KEY_STORE_PASSWORD
+            keyAlias EXPENSER_RELEASE_KEY_ALIAS
+            keyPassword EXPENSER_RELEASE_KEY_PASSWORD
+        }
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
+        }
+
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
     }
 }
 
 dependencies {
+    // Kotlin
+    implementation deps.kotlin.stdlib
+    implementation deps.kotlin.coroutines
 
-    implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.appcompat:appcompat:1.4.1'
-    implementation 'com.google.android.material:material:1.6.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    // UI
+    implementation deps.ui.material
 
-    testImplementation 'junit:junit:4.13.2'
+    // Dagger
+    implementation deps.dagger.hilt.android
+    kapt deps.dagger.hilt.compiler
 
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    implementation deps.dagger.hilt.lifecycle.viewmodel
+    kapt deps.dagger.hilt.lifecycle.compiler
+
+    // Components
+    implementation deps.jetpack.component.ktx
+    implementation deps.jetpack.component.fragment
+    implementation deps.jetpack.component.collection
+
+    // Lifecycle
+    implementation deps.jetpack.lifecycle.viewmodel
+    implementation deps.jetpack.lifecycle.savedstate
+    implementation deps.jetpack.lifecycle.livedata
+    implementation deps.jetpack.lifecycle.ktx
+    kapt deps.jetpack.lifecycle.compiler
+
+    // Database
+    implementation deps.jetpack.room.runtime
+    implementation deps.jetpack.room.ktx
+    kapt deps.jetpack.room.compiler
+
+    // Test
+    testImplementation deps.test.junit
 }
