@@ -6,7 +6,7 @@ import androidx.core.content.ContextCompat
 import com.hdeva.expensr.R
 import com.hdeva.expensr.databinding.ActivityHomeBinding
 import com.hdeva.expensr.ui.base.BaseActivity
-import com.hdeva.expensr.ui.transaction.TransactionAdapter
+import com.hdeva.expensr.ui.transaction.TransactionGroupAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -18,7 +18,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     override fun createBinding() = ActivityHomeBinding.inflate(layoutInflater)
 
     @Inject
-    lateinit var transactionAdapter: TransactionAdapter
+    lateinit var groupAdapter: TransactionGroupAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +29,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     private fun setupUi() {
         with(binding) {
             recyclerView.setHasFixedSize(false)
-            recyclerView.adapter = transactionAdapter
+            recyclerView.adapter = groupAdapter
 
             addTransaction.setOnClickListener {
                 viewModel.addRandomData()
@@ -39,7 +39,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
 
     private fun setupObserver() {
         viewModel.allTransactions.observe(this) { transactions ->
-            transactionAdapter.submitList(transactions)
+            groupAdapter.submitList(viewModel.groupTransactions(transactions))
         }
 
         viewModel.allExpenses.observe(this) { expenses ->

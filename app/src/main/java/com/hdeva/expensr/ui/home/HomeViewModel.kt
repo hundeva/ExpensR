@@ -48,6 +48,13 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    fun groupTransactions(transactions: List<Transaction>): List<List<Transaction>> {
+        return transactions.groupBy { transaction -> transaction.groupIndex }
+            .toList()
+            .sortedBy { pair -> pair.first }
+            .map { pair -> pair.second }
+    }
+
     private fun calculateBalance() = (allIncome.value ?: 0) - (allExpenses.value ?: 0)
 
     private fun calculateBalanceRatio(): Int {
