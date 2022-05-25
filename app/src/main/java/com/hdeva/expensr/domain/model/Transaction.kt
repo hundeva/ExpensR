@@ -5,7 +5,6 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.hdeva.expensr.domain.converter.CalendarConverter
-import com.hdeva.expensr.domain.converter.CurrencyConverter
 import com.hdeva.expensr.domain.converter.TransactionTypeConverter
 import java.util.*
 
@@ -14,7 +13,6 @@ import java.util.*
     value = [
         TransactionTypeConverter::class,
         CalendarConverter::class,
-        CurrencyConverter::class,
     ]
 )
 data class Transaction(
@@ -29,8 +27,6 @@ data class Transaction(
     val description: String,
     @ColumnInfo(name = "calendar")
     val calendar: Calendar,
-    @ColumnInfo(name = "currency")
-    val currency: Currency,
 ) {
     val groupIndex
         get() = "${calendar.get(Calendar.YEAR)}" +
@@ -46,16 +42,5 @@ enum class TransactionType(val type: String) {
         fun fromType(type: String) = values().firstOrNull { element ->
             element.type == type
         } ?: error("Unrecognized transaction type: $type")
-    }
-}
-
-enum class Currency(val type: String) {
-    EUR("EUR"),
-    USD("USD");
-
-    companion object {
-        fun fromType(type: String) = values().firstOrNull { element ->
-            element.type == type
-        } ?: error("Unrecognized currency: $type")
     }
 }

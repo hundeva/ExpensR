@@ -1,10 +1,10 @@
 package com.hdeva.expensr.ui.home
 
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.hdeva.expensr.domain.dao.TransactionDao
-import com.hdeva.expensr.domain.model.Currency
 import com.hdeva.expensr.domain.model.Transaction
 import com.hdeva.expensr.domain.model.TransactionType
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,6 +20,13 @@ class HomeViewModel @Inject constructor(
 ) : ViewModel() {
 
     val allTransactions = transactionDao.getAllTransactions().asLiveData()
+    val allExpenses =
+        transactionDao.getSumOfTransactionType(TransactionType.EXPENSE.type).asLiveData()
+    val allIncome = transactionDao.getSumOfTransactionType(TransactionType.INCOME.type).asLiveData()
+    val balance = MediatorLiveData<Int>().apply {
+        addSource(allExpenses) { value = calculateBalance() }
+        addSource(allIncome) { value = calculateBalance() }
+    }
 
     fun addRandomData() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -31,9 +38,10 @@ class HomeViewModel @Inject constructor(
                     calendar = Calendar.getInstance().apply {
                         set(Calendar.DAY_OF_YEAR, Random.nextInt(365))
                     },
-                    currency = if (Random.nextBoolean()) Currency.EUR else Currency.USD,
                 )
             )
         }
     }
+
+    private fun calculateBalance() = (allIncome.value ?: 0) - (allExpenses.value ?: 0)
 }

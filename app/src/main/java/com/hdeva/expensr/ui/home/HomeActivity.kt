@@ -39,5 +39,17 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         viewModel.allTransactions.observe(this) { transactions ->
             transactionAdapter.submitList(transactions)
         }
+
+        viewModel.allExpenses.observe(this) { expenses ->
+            binding.expenseValue.text = expenses?.toString() ?: "-"
+        }
+
+        viewModel.allIncome.observe(this) { income ->
+            binding.incomeValue.text = income?.toString() ?: "-"
+        }
+
+        viewModel.balance.observe(this) { balance ->
+            binding.balanceValue.text = balance?.toString() ?: "-"
+        }
     }
 }
