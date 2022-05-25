@@ -77,8 +77,6 @@ dependencies {
     // Dagger
     implementation deps.dagger.hilt.android
     kapt deps.dagger.hilt.compiler
-
-    implementation deps.dagger.hilt.lifecycle.viewmodel
     kapt deps.dagger.hilt.lifecycle.compiler
 
     // Components
