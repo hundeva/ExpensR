@@ -2,6 +2,8 @@ package com.hdeva.expensr.ui.home
 
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
+import com.hdeva.expensr.R
 import com.hdeva.expensr.databinding.ActivityHomeBinding
 import com.hdeva.expensr.ui.base.BaseActivity
 import com.hdeva.expensr.ui.transaction.TransactionAdapter
@@ -50,6 +52,15 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
 
         viewModel.balance.observe(this) { balance ->
             binding.balanceValue.text = balance?.toString() ?: "-"
+        }
+
+        viewModel.balanceRatio.observe(this) { balanceRatio ->
+            val indicatorColor = ContextCompat.getColor(
+                this,
+                if (balanceRatio < 100) R.color.green else R.color.red,
+            )
+            binding.balanceRatio.setIndicatorColor(indicatorColor)
+            binding.balanceRatio.setProgress(balanceRatio, true)
         }
     }
 }

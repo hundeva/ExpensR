@@ -12,6 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
+import kotlin.math.min
 import kotlin.random.Random
 
 @HiltViewModel
@@ -26,6 +27,10 @@ class HomeViewModel @Inject constructor(
     val balance = MediatorLiveData<Int>().apply {
         addSource(allExpenses) { value = calculateBalance() }
         addSource(allIncome) { value = calculateBalance() }
+    }
+    val balanceRatio = MediatorLiveData<Int>().apply {
+        addSource(allExpenses) { value = calculateBalanceRatio() }
+        addSource(allIncome) { value = calculateBalanceRatio() }
     }
 
     fun addRandomData() {
@@ -44,4 +49,9 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun calculateBalance() = (allIncome.value ?: 0) - (allExpenses.value ?: 0)
+
+    private fun calculateBalanceRatio(): Int {
+        val ratio = (allExpenses.value ?: 0).toDouble() / (allIncome.value ?: 0).toDouble()
+        return min((ratio * 100).toInt(), 100)
+    }
 }
