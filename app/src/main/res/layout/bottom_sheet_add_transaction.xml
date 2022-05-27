@@ -7,11 +7,20 @@
 
     <TextView
         android:id="@+id/title"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingBottom="@dimen/margin_large"
         android:text="@string/add_transaction"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -26,6 +35,7 @@
         android:id="@+id/type_radio"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:paddingBottom="@dimen/margin_large"
         app:layout_constraintTop_toBottomOf="@id/type_caption">
 
@@ -51,9 +61,10 @@
         app:layout_constraintTop_toBottomOf="@id/type_radio">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/description_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/transaction_type" />
+            android:hint="@string/transaction_description" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -65,19 +76,12 @@
         app:layout_constraintTop_toBottomOf="@id/description_input">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/value_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/amount_in_usd"
             android:inputType="number" />
 
     </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/add"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/value_input" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
