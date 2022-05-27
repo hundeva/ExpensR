@@ -1,6 +1,7 @@
 package com.hdeva.expensr.ui.transaction
 
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.hdeva.expensr.databinding.ItemTransactionBinding
@@ -12,6 +13,7 @@ import javax.inject.Inject
 
 class TransactionAdapter @Inject constructor(
     private val transactionHelper: TransactionHelper,
+    private val fragmentManager: FragmentManager,
 ) : ListAdapter<Transaction, TransactionViewHolder>(TransactionDiffer()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionViewHolder {
@@ -27,6 +29,13 @@ class TransactionAdapter @Inject constructor(
     override fun onBindViewHolder(holder: TransactionViewHolder, position: Int) {
         val item = getItem(position)
         with(holder.binding) {
+            container.setOnClickListener {
+                DeleteTransactionDialogFragment.newInstance(item)
+                    .show(
+                        fragmentManager,
+                        DeleteTransactionDialogFragment.TAG,
+                    )
+            }
             description.text =
                 transactionHelper.formatTransactionDescription(
                     description.context,

@@ -13,4 +13,9 @@
     <string name="amount_in_usd">Amount in $</string>
     <string name="oops_something_went_wrong">Oops, something went wrong</string>
     <string name="transaction_added">Transaction added!</string>
+    <string name="delete_transaction">Delete transaction?</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
+    <string name="transaction_deleted">Transaction deleted</string>
+    <string name="undo">UNDO</string>
 </resources>
