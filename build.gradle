@@ -34,7 +34,7 @@ buildscript {
                                 'compiler' : 'com.google.dagger:hilt-compiler:2.42',
 
                                 'lifecycle': [
-                                        'compiler' : 'androidx.hilt:hilt-compiler:1.0.0',
+                                        'compiler': 'androidx.hilt:hilt-compiler:1.0.0',
                                 ],
                         ],
                 ],
@@ -62,7 +62,12 @@ buildscript {
                 ],
 
                 'test'   : [
-                        'junit': 'junit:junit:4.13.2',
+                        'junit'  : 'junit:junit:4.13.2',
+                        'robolectric': 'androidx.test:core:1.4.0',
+                        'mockito': [
+                                'core' : 'org.mockito:mockito-core:4.0.0',
+                                'kotlin' : 'org.mockito.kotlin:mockito-kotlin:4.0.0',
+                        ],
                 ],
         ]
 

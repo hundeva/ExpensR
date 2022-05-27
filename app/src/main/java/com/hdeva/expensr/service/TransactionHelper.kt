@@ -15,6 +15,8 @@ class TransactionHelper @Inject constructor() {
     }
 
     fun formatTransactionValue(transaction: Transaction): String {
+        if (transaction.value == 0) return "$0"
+
         val prefix = if (transaction.type == TransactionType.INCOME) "" else "-"
         return "$prefix\$${transaction.value}"
     }

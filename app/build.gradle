@@ -98,4 +98,7 @@ dependencies {
 
     // Test
     testImplementation deps.test.junit
+    testImplementation deps.test.robolectric
+    testImplementation deps.test.mockito.core
+    testImplementation deps.test.mockito.kotlin
 }
