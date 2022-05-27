@@ -17,6 +17,9 @@ interface TransactionDao {
     @Query("DELETE FROM `transaction` WHERE id is :id")
     suspend fun deleteTransaction(id: Int)
 
+    @Query("DELETE FROM `transaction`")
+    suspend fun clearTransactions()
+
     @Query("SELECT * FROM `transaction` ORDER BY id ASC")
     fun getAllTransactions(): Flow<List<Transaction>>
 

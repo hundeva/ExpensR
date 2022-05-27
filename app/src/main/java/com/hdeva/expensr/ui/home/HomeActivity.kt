@@ -1,6 +1,8 @@
 package com.hdeva.expensr.ui.home
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import com.hdeva.expensr.R
@@ -27,6 +29,25 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         setupObserver()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.home_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.home_randomize -> {
+                viewModel.addRandomData()
+                true
+            }
+            R.id.home_clear_data -> {
+                viewModel.clearData()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
     private fun setupUi() {
         with(binding) {
             recyclerView.setHasFixedSize(false)
@@ -44,7 +65,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
 
     private fun setupObserver() {
         viewModel.allTransactions.observe(this) { transactions ->
-            groupAdapter.submitList(viewModel.groupTransactions(transactions))
+            groupAdapter.submitList(viewModel.groupAndSortTransactions(transactions))
         }
 
         viewModel.allExpenses.observe(this) { expenses ->
