@@ -83,7 +83,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         viewModel.balanceRatio.observe(this) { balanceRatio ->
             val indicatorColor = ContextCompat.getColor(
                 this,
-                if (balanceRatio < 100) R.color.green else R.color.red,
+                if (balanceRatio < 50) R.color.green else R.color.red,
             )
             binding.balanceRatio.setIndicatorColor(indicatorColor)
             binding.balanceRatio.setProgress(balanceRatio, true)

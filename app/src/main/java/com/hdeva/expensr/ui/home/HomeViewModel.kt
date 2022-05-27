@@ -10,7 +10,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
-import kotlin.math.min
 import kotlin.random.Random
 
 @HiltViewModel
@@ -39,8 +38,14 @@ class HomeViewModel @Inject constructor(
     private fun calculateBalance() = (allIncome.value ?: 0) - (allExpenses.value ?: 0)
 
     private fun calculateBalanceRatio(): Int {
-        val ratio = (allExpenses.value ?: 0).toDouble() / (allIncome.value ?: 0).toDouble()
-        return min((ratio * 100).toInt(), 100)
+        val expenses = (allExpenses.value ?: 0)
+        val income = (allIncome.value ?: 0)
+
+        if (expenses == 0) return 0
+        if (income == 0) return 100
+
+        val ratio = (expenses.toDouble() / (expenses.toDouble() + income.toDouble()))
+        return (ratio * 100).toInt().coerceAtMost(100)
     }
 
     // help for testing
