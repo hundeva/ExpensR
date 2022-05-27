@@ -9,10 +9,8 @@ import javax.inject.Inject
 class TransactionHelper @Inject constructor() {
 
     fun formatTransactionDescription(context: Context, transaction: Transaction): String {
-        return if (transaction.description.isEmpty()) {
+        return transaction.description.ifEmpty {
             context.getString(R.string.no_description)
-        } else {
-            transaction.description
         }
     }
 
